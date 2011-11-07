@@ -112,35 +112,13 @@ dp = xbmcgui.DialogProgress()
 # The exclude list.
 excl_list = set()
 
-dp.create('Thumbnail cleaner', 'Scanning...')
-if dp.iscanceled():
-	dp.close()
-	del excl_list
-	del dp
-	del d
-	sys.exit(0)
-dp.update(50, 'Scanning movies...')
 get_movie_excl_list(excl_list)
-if dp.iscanceled():
-	dp.close()
-	del excl_list
-	del dp
-	del d
-	sys.exit(0)
-dp.update(100, 'Scanning TV shows...')
 get_tvshows_excl_list(excl_list)
-if dp.iscanceled():
-	dp.close()
-	del excl_list
-	del dp
-	del d
-	sys.exit(0)
-dp.close()
 if d.yesno('Thumbnail cleaner', 'Delete unnecessary thumbnails'):
 	dp.create('Thumbnail cleaner', 'Deleting thumbnails...')
 	dp.update(25, 'Deleting thumbnails...')
 	delete_thumbnails(excl_list)
 	dp.close()
-del d
 del excl_list
 del dp
+del d
