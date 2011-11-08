@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.program.thumbnail.cleaner"
+<addon id="script.thumbnail.cleaner"
 	name="Thumbnail cleaner"
 	version="0.0.1"
 	provider-name="Bharath Ramesh"
@@ -8,16 +8,15 @@
 		<import addon="script.module.simplejson" version="2.0.10"/>
 		<import addon="xbmc.python" version="2.0"/>
 	</requires>
-	<extension point="xbmc.python.pluginsource" library="default.py">
-		<provides>executable</provides>
+	<extension point="xbmc.python.script" library="default.py">
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Thumbnail folder cleaner</summary>
 		<description>If you constantly add and delete movies or tv
 shows, over a period of time the thumbnail folder grows
-in size. This plugin deletes all unnecessary thumbnail,
+in size. This script deletes all unnecessary thumbnail,
 reclaiming drive space.</description>
-		<disclaimer>Executing this plugin can result in an unexpected loss of thumbnails.</disclaimer>
+		<disclaimer>Executing this script can result in an unexpected loss of thumbnails.</disclaimer>
 		<platform>linux</platform>
 	</extension>
 </addon>

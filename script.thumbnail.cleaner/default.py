@@ -3,6 +3,8 @@ import xbmc, xbmcgui
 import simplejson as json
 
 def delete_thumbnails(excl):
+	if not excl:
+		return
 	sub_dirs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'Fanart']
 	top_dir = xbmc.translatePath('special://thumbnails') + 'Video'
 	for sdir in sub_dirs:
@@ -101,9 +103,6 @@ def get_tvshows_excl_list(excl):
 			excl.add(os.path.basename(xbmc.translatePath(e['fanart'])))
 		if e.has_key('thumbnail'):
 			excl.add(os.path.basename(xbmc.translatePath(e['thumbnail'])))
-
-# get id for the current execution context.
-cur_exec_ctx_id = int(sys.argv[1])
 
 # Create dialogs
 d = xbmcgui.Dialog()
