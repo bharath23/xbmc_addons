@@ -45,6 +45,27 @@ def get_movie_excl_list(excl):
 		if m.has_key('thumbnail'):
 			excl.add(os.path.basename(xbmc.translatePath(m['thumbnail'])))
 
+def get_season_excl_list(excl, tvshowid):
+	query = '{"jsonrpc": "2.0", "id": 1, '
+	query += '"method": "VideoLibrary.GetSeasons", '
+	query += '"params": {"tvshowid": %s, "properties": ["fanart", "thumbnail"]}}' % tvshowid
+	resp_json = xbmc.executeJSONRPC(query)
+	resp_obj = json.loads(resp_json)
+	if resp_obj['result'].has_key('limits'):
+		if resp_obj['result']['limits']['total'] == 0:
+			return
+	else:
+		return
+	if resp_obj['result'].has_key('seasons'):
+		seasons = resp_obj['result']['seasons']
+	else:
+		return
+	for s in seasons:
+		if s.has_key('fanart'):
+			excl.add(os.path.basename(xbmc.translatePath(s['fanart'])))
+		if s.has_key('thumbnail'):
+			excl.add(os.path.basename(xbmc.translatePath(s['thumbnail'])))
+
 def get_tvshows_excl_list(excl):
 	query = '{"jsonrpc": "2.0", "id": 1, '
 	query += '"method": "VideoLibrary.GetTVShows", '
@@ -65,25 +86,7 @@ def get_tvshows_excl_list(excl):
 			excl.add(os.path.basename(xbmc.translatePath(t['fanart'])))
 		if t.has_key('thumbnail'):
 			excl.add(os.path.basename(xbmc.translatePath(t['thumbnail'])))
-		query = '{"jsonrpc": "2.0", "id": 1, '
-		query += '"method": "VideoLibrary.GetSeasons", '
-		query += '"params": {"tvshowid": %s, "properties": ["fanart", "thumbnail"]}}' % t['tvshowid']
-		resp_json = xbmc.executeJSONRPC(query)
-		resp_obj = json.loads(resp_json)
-		if resp_obj['result'].has_key('limits'):
-			if resp_obj['result']['limits']['total'] == 0:
-				continue
-		else:
-			continue
-		if resp_obj['result'].has_key('seasons'):
-			seasons = resp_obj['result']['seasons']
-		else:
-			continue
-		for s in seasons:
-			if s.has_key('fanart'):
-				excl.add(os.path.basename(xbmc.translatePath(s['fanart'])))
-			if s.has_key('thumbnail'):
-				excl.add(os.path.basename(xbmc.translatePath(s['thumbnail'])))
+		get_season_excl_list (excl, t['tvshowid'])
 	query = '{"jsonrpc": "2.0", "id": 1, '
 	query += '"method": "VideoLibrary.GetEpisodes", '
 	query += '"params": {"properties": ["fanart", "thumbnail"]}}'
